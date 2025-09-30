@@ -35,7 +35,6 @@ const Home = () => {
             <Typewriter
               words={[
                 "Full-Stack Developer (MERN)",
-                "Java Enthusiast",
                 "Problem Solver",
                 "Tech Explorer"
               ]}
