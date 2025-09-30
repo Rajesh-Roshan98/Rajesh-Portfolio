@@ -5,11 +5,19 @@ import "aos/dist/aos.css";
 import toast from "react-hot-toast";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
   const [loading, setLoading] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleChange = (e) => {
@@ -19,107 +27,92 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       const res = await axios.post("/api/v1/createcontact", formData);
       if (res.status === 201 && res.data.message) {
         toast.success(res.data.message);
         setFormData({ name: "", email: "", message: "" });
       } else {
-        toast.error(res.data.error || "❌ Failed to send message. Try again later.");
+        toast.error(res.data.error || "❌ Failed to send message.");
       }
     } catch (err) {
-      console.error(err);
       toast.error(
         err.response?.data?.error ||
         err.response?.data?.message ||
-        "❌ Something went wrong. Try again later."
+        "❌ Something went wrong."
       );
     }
-
     setLoading(false);
   };
 
   return (
     <section
       id="Contact"
-      className="relative w-full h-screen bg-[#0a0f1c] text-white overflow-hidden flex items-center justify-center px-6 md:px-20"
+      className="relative w-full min-h-screen bg-[#0a0f1c] text-white px-4 sm:px-10 md:px-20 py-20 flex items-center justify-center"
     >
-      {/* Background blobs */}
-      <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-500 opacity-20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-fuchsia-500 opacity-20 rounded-full blur-3xl pointer-events-none" />
+      {/* Background blobs with parallax */}
+      <div
+        className="absolute -top-40 -left-40 w-[60vw] sm:w-[40vw] md:w-[500px] h-[60vw] sm:h-[40vw] md:h-[500px] bg-blue-500 opacity-20 rounded-full blur-3xl z-0 pointer-events-none"
+        style={{ transform: `translateY(${scrollY * 0.1}px)` }}
+      />
+      <div
+        className="absolute -bottom-40 -right-40 w-[60vw] sm:w-[40vw] md:w-[500px] h-[60vw] sm:h-[40vw] md:h-[500px] bg-fuchsia-500 opacity-20 rounded-full blur-3xl z-0 pointer-events-none"
+        style={{ transform: `translateY(-${scrollY * 0.1}px)` }}
+      />
 
-      {/* Content container */}
-      <div className="relative z-10 max-w-3xl w-full text-center flex flex-col items-center justify-center h-full overflow-hidden">
-        {/* Section Title */}
-        <div data-aos="fade-up" className="mb-8 md:mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+      <div className="relative z-10 max-w-md w-full">
+        <div data-aos="fade-up" className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
             Get <span className="text-purple-400">in Touch</span>
           </h2>
-          <p className="text-lg text-gray-300">
-            I’m open to <span className="text-white font-semibold">internship</span> and{" "}
-            <span className="text-white font-semibold">entry-level</span> opportunities.
-            Let’s build something amazing together!
+          <p className="text-gray-300 text-base sm:text-lg">
+            I’m open to <span className="font-semibold text-white">internship</span> and{" "}
+            <span className="font-semibold text-white">entry-level</span> opportunities.
           </p>
         </div>
 
-        {/* Contact Card */}
-        <div
+        {/* Contact Form */}
+        <form
+          onSubmit={handleSubmit}
           data-aos="fade-up"
           data-aos-delay="150"
-          className="p-8 bg-[#111827] rounded-lg border border-gray-700
-                     transition-transform duration-300 ease-in-out transform hover:scale-105
-                     hover:shadow-[0_0_20px_rgba(168,85,247,0.6),0_0_40px_rgba(168,85,247,0.3)]
-                     will-change-transform max-w-md w-full"
+          className="flex flex-col gap-4 bg-[#111827] p-6 rounded-lg border border-gray-700 shadow-md"
         >
-          <p className="text-gray-300 mb-6">
-            Send me a direct message below.
-          </p>
-
-          {/* Contact Form */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-left">
-            <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md 
-                         text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Your Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md 
-                         text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
-            <textarea
-              name="message"
-              rows="4"
-              placeholder="Your Message"
-              value={formData.message}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md 
-                         text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
-            ></textarea>
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-3 bg-purple-600 hover:bg-purple-700
-                         text-white font-medium rounded-lg shadow-md 
-                         transition-all duration-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.6)]
-                         transform hover:scale-105 disabled:opacity-50"
-            >
-              {loading ? "Sending..." : "Send Message"}
-            </button>
-          </form>
-        </div>
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
+          />
+          <textarea
+            name="message"
+            rows="5"
+            placeholder="Your Message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none text-sm sm:text-base"
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg shadow-md transition-all duration-300 hover:scale-105 disabled:opacity-50 text-sm sm:text-base"
+          >
+            {loading ? "Sending..." : "Send Message"}
+          </button>
+        </form>
       </div>
     </section>
   );
