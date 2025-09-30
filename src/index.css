@@ -1,0 +1,32 @@
+@import "tailwindcss";
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05); /* subtle pulse */
+  }
+}
+
+.breathe {
+  display: inline-block; /* ensure transform works */
+  animation: breathe 3s ease-in-out infinite;
+  transition: transform 0.3s ease-in-out; /* smooth hover scale */
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(168,85,247,0.6), 0 0 60px rgba(168,85,247,0.3);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(168,85,247,0.8), 0 0 100px rgba(168,85,247,0.5);
+  }
+}
+
+.animate-pulseGlow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
