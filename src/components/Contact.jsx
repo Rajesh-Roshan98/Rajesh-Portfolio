@@ -31,7 +31,7 @@ const Contact = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/contact/createcontact`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/contact/createcontact`,
         formData
       );
 
