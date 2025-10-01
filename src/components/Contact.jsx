@@ -28,34 +28,22 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post("/api/v1/createcontact", formData);
-      // normalize server response message to a string
-      const serverMsg =
-        typeof res.data === 'string'
-          ? res.data
-          : res.data && (res.data.message || res.data.error)
-          ? String(res.data.message || res.data.error)
-          : JSON.stringify(res.data);
-
-      if (res.status === 201) {
-        toast.success(serverMsg || '✅ Message sent successfully!');
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/contact/createcontact`,
+        formData);
+      if (res.status === 201 && res.data.message) {
+        toast.success(res.data.message);
         setFormData({ name: "", email: "", message: "" });
       } else {
-        toast.error(serverMsg || '❌ Failed to send message.');
+        toast.error(res.data.error || "❌ Failed to send message.");
       }
     } catch (err) {
-      // normalize error message
-      const errData = err.response?.data;
-      const errMsg =
-        typeof errData === 'string'
-          ? errData
-          : errData && (errData.error || errData.message)
-          ? String(errData.error || errData.message)
-          : err.message || '❌ Something went wrong.';
-      toast.error(errMsg);
-    } finally {
-      setLoading(false);
+      toast.error(
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        "❌ Something went wrong."
+      );
     }
+    setLoading(false);
   };
 
   return (
