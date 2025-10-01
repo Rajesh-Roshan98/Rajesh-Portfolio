@@ -28,8 +28,13 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/contact/createcontact`,
-        formData);
+      // Build backend endpoint safely: trim trailing slashes from env var and use correct path
+      const rawBackend = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_URL || "";
+      const backendBase = rawBackend ? String(rawBackend).replace(/\/+$/, "") : "";
+      const endpoint = backendBase
+        ? `${backendBase}/api/v1/createcontact`
+        : "/api/v1/createcontact";
+      const res = await axios.post(endpoint, formData);
       if (res.status === 201 && res.data.message) {
         toast.success(res.data.message);
         setFormData({ name: "", email: "", message: "" });
