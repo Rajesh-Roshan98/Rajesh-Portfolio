@@ -29,20 +29,33 @@ const Contact = () => {
     setLoading(true);
     try {
       const res = await axios.post("/api/v1/createcontact", formData);
-      if (res.status === 201 && res.data.message) {
-        toast.success(res.data.message);
+      // normalize server response message to a string
+      const serverMsg =
+        typeof res.data === 'string'
+          ? res.data
+          : res.data && (res.data.message || res.data.error)
+          ? String(res.data.message || res.data.error)
+          : JSON.stringify(res.data);
+
+      if (res.status === 201) {
+        toast.success(serverMsg || '✅ Message sent successfully!');
         setFormData({ name: "", email: "", message: "" });
       } else {
-        toast.error(res.data.error || "❌ Failed to send message.");
+        toast.error(serverMsg || '❌ Failed to send message.');
       }
     } catch (err) {
-      toast.error(
-        err.response?.data?.error ||
-        err.response?.data?.message ||
-        "❌ Something went wrong."
-      );
+      // normalize error message
+      const errData = err.response?.data;
+      const errMsg =
+        typeof errData === 'string'
+          ? errData
+          : errData && (errData.error || errData.message)
+          ? String(errData.error || errData.message)
+          : err.message || '❌ Something went wrong.';
+      toast.error(errMsg);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
