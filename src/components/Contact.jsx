@@ -10,6 +10,7 @@ const Contact = () => {
     email: "",
     message: "",
   });
+  
   const [loading, setLoading] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
