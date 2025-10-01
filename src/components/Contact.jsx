@@ -5,11 +5,7 @@ import "aos/dist/aos.css";
 import toast from "react-hot-toast";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
@@ -26,27 +22,38 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!import.meta.env.VITE_BACKEND_URL) {
+      toast.error("Backend URL is not defined. Please check .env file.");
+      return;
+    }
+
     setLoading(true);
     try {
-      // Build backend endpoint safely: trim trailing slashes from env var and use correct path
-      const rawBackend = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_URL || "";
-      const backendBase = rawBackend ? String(rawBackend).replace(/\/+$/, "") : "";
-      const endpoint = backendBase
-        ? `${backendBase}/api/v1/createcontact`
-        : "/api/v1/createcontact";
-      const res = await axios.post(endpoint, formData);
-      if (res.status === 201 && res.data.message) {
-        toast.success(res.data.message);
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/contact/createcontact`,
+        formData
+      );
+
+      // Safely extract message
+      const message = res?.data?.message;
+      if (res.status === 201 && message && typeof message === "string") {
+        toast.success(message);
         setFormData({ name: "", email: "", message: "" });
       } else {
-        toast.error(res.data.error || "❌ Failed to send message.");
+        const errorMsg =
+          typeof res?.data?.error === "string" ? res.data.error : "❌ Failed to send message.";
+        toast.error(errorMsg);
       }
     } catch (err) {
-      toast.error(
-        err.response?.data?.error ||
-        err.response?.data?.message ||
-        "❌ Something went wrong."
-      );
+      // Safely extract error message
+      const errorMsg =
+        typeof err?.response?.data?.error === "string"
+          ? err.response.data.error
+          : typeof err?.response?.data?.message === "string"
+          ? err.response.data.message
+          : err?.message || "❌ Something went wrong.";
+      toast.error(errorMsg);
     }
     setLoading(false);
   };
