@@ -98,7 +98,7 @@ const Home = () => {
               <FaGithub />
             </a>
             <a
-              href="https://www.linkedin.com/in/rajeshroshan89"
+              href="https://www.linkedin.com/in/rajeshroshan89/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-blue-400 transition-transform transform hover:scale-110 pointer-events-auto"
