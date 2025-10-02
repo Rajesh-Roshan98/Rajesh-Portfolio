@@ -123,7 +123,7 @@ const Home = () => {
           {/* Resume Button */}
           <div className="flex flex-col sm:flex-row gap-4 mt-6 justify-center md:justify-start">
             <a
-              href="/public/Resume/Raj.pdf"
+              href="/Resume/Raj.pdf"
               target="_blank"
               rel="noopener noreferrer"
             >
