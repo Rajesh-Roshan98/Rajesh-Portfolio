@@ -8,8 +8,7 @@ const projects = [
     description:
       "A personal portfolio to showcase my work, skills, and contact details. Built with React and Tailwind.",
     tech: ["React", "Tailwind CSS", "AOS"],
-    frontendLink: "#",
-    demoLink: "#",
+    GitHub: "https://github.com/Rajesh-Roshan98/Rajesh-Portfolio",
   },
   {
     title: "BlogMaster App",
@@ -25,9 +24,8 @@ const projects = [
     description:
       "A modern weather forecasting app that shows real-time weather, 5-day forecast, and location-based updates. Built with React and Tailwind CSS.",
     tech: ["React", "Tailwind", "OpenWeather API", "Vercel"],
-    backendLink: "#",
-    frontendLink: "https://github.com/your-username/climacast",
-    demoLink: "https://climacast.vercel.app",
+    frontendLink: "https://github.com/Rajesh-Roshan98/WeatherApp",
+    demoLink: "https://weather-app-climacast.vercel.app/",
   },
 ];
 
