@@ -1,6 +1,6 @@
 # Raj-Portfolio (Frontend)
 
-**Raj-Portfolio** is a personal portfolio website built using **React** and **Vite**, styled with **Tailwind CSS**. This README covers the **frontend** portion of the project located in `Raj-Portfolio/`.
+**Raj-Portfolio** is a personal portfolio website built using **React** and **Vite**, styled with **Tailwind CSS**. This README covers the **frontend** portion of the project.
 
 ## Features
 
