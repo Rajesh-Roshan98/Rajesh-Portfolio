@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { FaGithub, FaExternalLinkAlt, FaServer, FaCode } from "react-icons/fa";
 
 const projects = [
   {
@@ -8,24 +9,54 @@ const projects = [
     description:
       "A personal portfolio to showcase my work, skills, and contact details. Built with React and Tailwind.",
     tech: ["React", "Tailwind CSS", "AOS"],
-    GitHub: "https://github.com/Rajesh-Roshan98/Rajesh-Portfolio",
+    links: [
+      {
+        label: "GitHub Code",
+        icon: <FaGithub />,
+        url: "https://github.com/Rajesh-Roshan98/Rajesh-Portfolio",
+      },
+    ],
   },
   {
     title: "BlogMaster App",
     description:
       "A full-stack blog app with categories, rich editor, and comments. Features authentication and routing.",
     tech: ["React", "Node.js", "MongoDB"],
-    backendLink: "https://github.com/Rajesh-Roshan98/Blog-Master-Backend",
-    frontendLink: "https://github.com/Rajesh-Roshan98/Blog-Master-Frontend",
-    demoLink: "https://blog-master-frontend-beta.vercel.app/",
+    links: [
+      {
+        label: "Frontend Code",
+        icon: <FaCode />,
+        url: "https://github.com/Rajesh-Roshan98/Blog-Master-Frontend",
+      },
+      {
+        label: "Backend Code",
+        icon: <FaServer />,
+        url: "https://github.com/Rajesh-Roshan98/Blog-Master-Backend",
+      },
+      {
+        label: "Live Demo",
+        icon: <FaExternalLinkAlt />,
+        url: "https://blog-master-frontend-beta.vercel.app/",
+      },
+    ],
   },
   {
     title: "ClimaCast - Weather Website",
     description:
       "A modern weather forecasting app that shows real-time weather, 5-day forecast, and location-based updates. Built with React and Tailwind CSS.",
     tech: ["React", "Tailwind", "OpenWeather API", "Vercel"],
-    frontendLink: "https://github.com/Rajesh-Roshan98/WeatherApp",
-    demoLink: "https://weather-app-climacast.vercel.app/",
+    links: [
+      {
+        label: "GitHub Code",
+        icon: <FaGithub />,
+        url: "https://github.com/Rajesh-Roshan98/WeatherApp",
+      },
+      {
+        label: "Live Demo",
+        icon: <FaExternalLinkAlt />,
+        url: "https://weather-app-climacast.vercel.app/",
+      },
+    ],
   },
 ];
 
@@ -100,38 +131,20 @@ const Projects = () => {
                 ))}
               </div>
 
-              {/* Links */}
+              {/* Links with Icons */}
               <div className="flex flex-wrap gap-4 text-sm sm:text-xs">
-                {project.backendLink && (
+                {project.links.map((link, i) => (
                   <a
-                    href={project.backendLink}
+                    key={i}
+                    href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-purple-400 hover:underline"
+                    className="flex items-center gap-1 text-purple-400 hover:text-purple-300 hover:underline transition-colors"
                   >
-                    Backend Code
+                    {link.icon}
+                    <span>{link.label}</span>
                   </a>
-                )}
-                {project.frontendLink && (
-                  <a
-                    href={project.frontendLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-purple-400 hover:underline"
-                  >
-                    Frontend Code
-                  </a>
-                )}
-                {project.demoLink && (
-                  <a
-                    href={project.demoLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-purple-400 hover:underline"
-                  >
-                    Live Demo
-                  </a>
-                )}
+                ))}
               </div>
             </div>
           ))}
