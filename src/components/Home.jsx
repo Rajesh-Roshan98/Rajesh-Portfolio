@@ -16,7 +16,6 @@ const Home = () => {
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
 
-    // ✅ AOS with lighter mobile animations
     AOS.init({
       duration: isMobile ? 600 : 800,
       once: true,
@@ -51,7 +50,8 @@ const Home = () => {
   return (
     <section
       id="Home"
-      className="relative w-full min-h-screen bg-[#0a0f1c] text-white overflow-hidden flex items-center justify-center px-4 sm:px-10 md:px-20 py-20"
+      className={`relative w-full min-h-screen bg-[#0a0f1c] text-white flex items-center justify-center px-4 sm:px-10 md:px-20 py-20 
+        ${isMobile ? "overflow-y-auto" : "overflow-hidden"}`}
     >
       {/* Floating Background blobs */}
       <div
@@ -90,7 +90,7 @@ const Home = () => {
             />
           </h2>
 
-          <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-md sm:max-w-lg">
+          <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-md sm:max-w-lg mx-auto md:mx-0">
             I'm a Full-Stack Web Developer specializing in building scalable
             applications using the <strong>MERN Stack</strong>. I love solving
             problems and exploring new technologies.
