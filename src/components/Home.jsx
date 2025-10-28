@@ -14,11 +14,18 @@ const Home = () => {
   const avatarRef = useRef(null);
 
   useEffect(() => {
-    // Lazy-init AOS with mobile disabled
-    AOS.init({ duration: 800, once: true, disable: "mobile" });
+    const isMobile = window.innerWidth < 768;
+
+    // ✅ AOS with lighter mobile animations
+    AOS.init({
+      duration: isMobile ? 600 : 800,
+      once: true,
+      easing: "ease-out",
+      disable: false,
+    });
+    AOS.refresh();
 
     let ticking = false;
-
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
@@ -28,7 +35,7 @@ const Home = () => {
           if (blobBottomRef.current)
             blobBottomRef.current.style.transform = `translateY(-${scrollY * 0.1}px)`;
           if (avatarRef.current)
-            avatarRef.current.style.transform = `translateY(${scrollY * 0.03}px)`; // smoother
+            avatarRef.current.style.transform = `translateY(${scrollY * 0.03}px)`;
           ticking = false;
         });
         ticking = true;
@@ -38,6 +45,8 @@ const Home = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   return (
     <section
@@ -58,8 +67,8 @@ const Home = () => {
       <div className="relative z-10 flex flex-col md:flex-row items-center justify-between w-full max-w-6xl">
         {/* Left Content */}
         <div
-          className="md:w-1/2 space-y-6 text-center md:text-left opacity-0 aos-init"
-          data-aos="fade-right"
+          className="md:w-1/2 space-y-6 text-center md:text-left"
+          data-aos={isMobile ? "fade-up" : "fade-right"}
         >
           <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold leading-tight">
             Hi, I'm <span className="text-purple-400">Rajesh Roshan</span>
@@ -88,7 +97,11 @@ const Home = () => {
           </p>
 
           {/* Social Icons */}
-          <div className="flex justify-center md:justify-start gap-6 text-3xl sm:text-4xl mt-4 z-10">
+          <div
+            className="flex justify-center md:justify-start gap-6 text-3xl sm:text-4xl mt-4 z-10"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
             <a
               href="https://github.com/Rajesh-Roshan98"
               target="_blank"
@@ -121,7 +134,11 @@ const Home = () => {
           </div>
 
           {/* Resume Button */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-6 justify-center md:justify-start">
+          <div
+            className="flex flex-col sm:flex-row gap-4 mt-6 justify-center md:justify-start"
+            data-aos="fade-up"
+            data-aos-delay="400"
+          >
             <a
               href="/Resume/Rajesh.pdf"
               target="_blank"
@@ -136,8 +153,9 @@ const Home = () => {
 
         {/* Right Content (Avatar) */}
         <div
-          className="md:w-1/2 flex justify-center mt-10 md:mt-0 relative opacity-0 aos-init"
-          data-aos="fade-left"
+          className="md:w-1/2 flex justify-center mt-10 md:mt-0 relative"
+          data-aos={isMobile ? "fade-up" : "fade-left"}
+          data-aos-delay="300"
         >
           <div ref={avatarRef} className="relative">
             {/* Static neon glow */}
@@ -148,9 +166,7 @@ const Home = () => {
             <img
               src={avatarimg}
               alt="Raj Avatar"
-              className="relative rounded-full w-48 h-48 sm:w-60 sm:h-60 md:w-80 md:h-80 object-cover shadow-2xl
-                        border-4 border-purple-400 hover:border-pink-400 duration-500
-                        transition-transform hover:scale-105"
+              className="relative rounded-full w-48 h-48 sm:w-60 sm:h-60 md:w-80 md:h-80 object-cover shadow-2xl border-4 border-purple-400 hover:border-pink-400 duration-500 transition-transform hover:scale-105"
             />
           </div>
         </div>
