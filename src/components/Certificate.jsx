@@ -125,4 +125,4 @@ export default function Certificate() {
       </div>
     </section>
   );
-} 
+}
