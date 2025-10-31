@@ -1,13 +1,14 @@
 import { RiCloseLine, RiMenu2Line } from "@remixicon/react";
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import useIsMobile from "../hooks/useIsMobile"; // 👈 Add this custom hook
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-
   const navigate = useNavigate();
   const location = useLocation();
+  const isMobile = useIsMobile(); // ✅ Detect mobile
   const ticking = useRef(false);
 
   const navLinks = [
@@ -21,9 +22,19 @@ const Navbar = () => {
 
   const handleToggle = () => setMenuOpen(!menuOpen);
 
-  const handleLinkClick = (to) => {
-    navigate(to);
+  const handleLinkClick = (to, name) => {
     setMenuOpen(false);
+
+    if (isMobile) {
+      // 📱 On mobile → scroll to section
+      const section = document.getElementById(name);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // 🖥 On desktop → navigate to route
+      navigate(to);
+    }
   };
 
   useEffect(() => {
@@ -44,20 +55,18 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 md:px-20 py-4 transition-colors duration-500 ease-in-out backdrop-blur-md ${
-        isScrolled
-          ? "bg-[#0a0f1c]/40"
-          : "bg-transparent"
+        isScrolled ? "bg-[#0a0f1c]/40" : "bg-transparent"
       }`}
     >
       {/* Logo */}
       <button
         className="text-2xl font-extrabold text-purple-400 tracking-wide"
-        onClick={() => handleLinkClick("/")}
+        onClick={() => handleLinkClick("/", "Home")}
       >
         RR
       </button>
 
-      {/* Navigation Links */}
+      {/* Nav Links */}
       <ul
         className={`${
           menuOpen ? "flex flex-col gap-4" : "hidden"
@@ -66,9 +75,9 @@ const Navbar = () => {
         {navLinks.map((link) => (
           <li key={link.name}>
             <button
-              onClick={() => handleLinkClick(link.to)}
+              onClick={() => handleLinkClick(link.to, link.name)}
               className={`block cursor-pointer transition-all duration-300 hover:text-purple-400 ${
-                location.pathname === link.to
+                location.pathname === link.to && !isMobile
                   ? "text-purple-400 font-bold"
                   : "text-gray-300"
               }`}

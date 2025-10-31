@@ -77,7 +77,7 @@ const Projects = () => {
   return (
     <section
       id="Projects"
-      className="relative min-h-screen py-20 px-4 sm:px-10 md:px-20 bg-[#0a0f1c] text-white"
+      className="relative min-h-screen py-20 px-4 sm:px-10 md:px-20 bg-[#0a0f1c] text-white overflow-hidden"
     >
       {/* Background blobs with parallax */}
       <div

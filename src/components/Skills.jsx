@@ -44,7 +44,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="relative min-h-screen py-20 px-4 sm:px-10 md:px-20 bg-[#0a0f1c] text-white flex flex-col items-center justify-center"
+      className="relative min-h-screen py-20 px-4 sm:px-10 md:px-20 bg-[#0a0f1c] text-white flex flex-col items-center justify-center overflow-hidden"
     >
       {/* Background blobs with parallax */}
       <div

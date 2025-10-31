@@ -55,7 +55,7 @@ const Contact = () => {
   return (
     <section
       id="Contact"
-      className="relative w-full min-h-screen bg-[#0a0f1c] text-white px-4 sm:px-10 md:px-20 py-20 flex items-center justify-center"
+      className="relative w-full min-h-screen bg-[#0a0f1c] text-white px-4 sm:px-10 md:px-20 py-20 flex items-center justify-center overflow-hidden"
     >
       {/* Background blobs with parallax */}
       <div
