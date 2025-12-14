@@ -18,6 +18,29 @@ const projects = [
     ],
   },
   {
+    title: "Authentication App",
+    description:
+      "A full-stack authentication system with JWT-based login/signup, encrypted passwords, protected routes, and role-based access control.",
+    tech: ["React", "Node.js", "MongoDB"],
+    links: [
+      {
+        label: "Frontend Code",
+        icon: <FaCode />,
+        url: "https://github.com/Rajesh-Roshan98/AuthFrontend",
+      },
+      {
+        label: "Backend Code",
+        icon: <FaServer />,
+        url: "https://github.com/Rajesh-Roshan98/AuthBackend",
+      },
+      {
+        label: "Live Demo",
+        icon: <FaExternalLinkAlt />,
+        url: "https://secure-auth-app.vercel.app/",
+      },
+    ],
+  },
+  {
     title: "BlogMaster App",
     description:
       "A full-stack blog app with categories, rich editor, and comments. Features authentication and routing.",

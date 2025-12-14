@@ -16,7 +16,7 @@ const certificates = [
     title: "MEAN & React JS Internship",
     issuer: "MCA PL",
     date: "June 2025",
-    type: "internship",
+    type: "Internship",
     description:
       "Completed hands-on training in MEAN Stack (MongoDB, Express.js, Angular, Node.js) and React.js with Grade 'B'.",
     link: "https://drive.google.com/file/d/198hePmRc5PRCIjTxoXMC__KHBHVMjIIm/view?usp=sharing",
@@ -26,11 +26,21 @@ const certificates = [
     title: "Industry Exposure Program (Python - AWS)",
     issuer: "Hebbale Academy",
     date: "July 2025",
-    type: "internship",
+    type: "Internship",
     description:
       "Virtual internship with exposure to Python backend, AWS services (Lambda, S3, DynamoDB), frontend (HTML, CSS, JS), Git, and Hackathon participation.",
     link: "https://drive.google.com/file/d/1Y7ErVM3ZvJWX22-EzqzrGarQE4eJsPP-/view?usp=sharing",
     image: "/assets/Rajesh Roshan.png",
+  },
+  {
+    title: "Agentic AI Hackathon",
+    issuer: "Hebbale Academy",
+    date: "September 2025",
+    type: "Hackathon",
+    description:
+      "Participated in the Agentic AI Hackathon 2025 organized by Hebbale Academy at GIET University. Demonstrated enthusiasm and problem-solving skills while contributing to AI-based project activities during the 3-day event.",
+    link: "https://drive.google.com/file/d/175ywbVpU_2LtDtPTKCoe-iDGoK-bPO0P/view?usp=sharing",
+    image: "/assets/Hackathon.png",
   },
 ];
 
