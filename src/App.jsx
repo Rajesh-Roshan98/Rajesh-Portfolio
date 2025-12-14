@@ -28,7 +28,7 @@ function App() {
       <main>
         {isMobile ? (
           // 📱 Mobile View → Scrollable Single Page Layout
-          <div className="flex flex-col gap-16 md:gap-24">
+          <div className="flex flex-col gap-0 scroll-smooth">
             <section id="Home">
               <Home />
             </section>
