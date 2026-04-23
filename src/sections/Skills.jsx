@@ -50,7 +50,7 @@ const Skills = () => {
         </h2>
 
         <p
-          className="text-base sm:text-lg text-gray-400 leading-relaxed text-center mb-14 w-full whitespace-nowrap overflow-x-auto"
+          className="text-base sm:text-lg text-gray-400 leading-relaxed text-center mb-14 w-full whitespace-normal break-words"
           data-aos="fade-up"
           data-aos-delay="200"
         >

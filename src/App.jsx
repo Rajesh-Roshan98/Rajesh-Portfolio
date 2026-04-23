@@ -1,8 +1,8 @@
-import { useEffect, Suspense, lazy } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Navbar from "./components/Navbar";
-import Theme from "./components/Theme"; 
+import Theme from "./components/Theme";
 import { Toaster } from "react-hot-toast";
 
 // 🌟 UPGRADE: Lazy load section components for bundle splitting and faster initial load
@@ -14,6 +14,21 @@ const Certificate = lazy(() => import("./sections/Certificate"));
 const Skills = lazy(() => import("./sections/Skills"));
 
 function App() {
+  // 🌟 NEW: State to track if the user is on mobile
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 🌟 NEW: Separate useEffect just for screen size detection so your existing logic is untouched
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // 768px is the standard tablet/mobile breakpoint
+    };
+    handleResize(); // Check immediately on load
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup listener on unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Scroll to top on initial load and initialize AOS globally
   useEffect(() => {
     // Globally initialize AOS ONCE here, instead of in every child component
@@ -32,13 +47,49 @@ function App() {
 
   return (
     <Theme>
+      {/* 🔥 UPGRADE: Dynamic position and spacing based on device screen size */}
+      <Toaster
+        position={isMobile ? "bottom-center" : "top-right"}
+        reverseOrder={false}
+        containerStyle={{
+          zIndex: 99999,
+          top: isMobile ? "auto" : "80px", // Desktop: Push down below Navbar
+          bottom: isMobile ? "40px" : "auto", // Mobile: Push up slightly from the bottom edge
+        }}
+        toastOptions={{
+          style: {
+            background: "#111827",
+            color: "#fff",
+            border: "1px solid #6d28d9",
+            borderRadius: "12px",
+            padding: "12px 16px",
+            fontSize: "14px",
+            fontWeight: "500",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
+            maxWidth: isMobile ? "90vw" : "350px", // Mobile: 90% screen width, Desktop: max 350px
+          },
+          success: {
+            iconTheme: {
+              primary: "#a855f7",
+              secondary: "#111827",
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: "#ef4444",
+              secondary: "#111827",
+            },
+          },
+        }}
+      />
+
       {/* 📜 SCROLLING CONTENT LAYER */}
       <div className="relative min-h-screen w-full text-white overflow-x-hidden">
         <Navbar />
 
         <main className="relative z-0">
           {/* 🌟 UPGRADE: Suspense boundary handles the loading state gracefully */}
-          <Suspense 
+          <Suspense
             fallback={
               <div className="flex items-center justify-center min-h-screen w-full">
                 {/* Premium glowing spinner */}
@@ -48,57 +99,14 @@ function App() {
           >
             {/* Unified Single Page Layout with Smooth Scrolling */}
             <div className="flex flex-col gap-0 scroll-smooth">
-              {/* ❌ Removed the conflicting Reveal wrappers so your native AOS handles the animations */}
-              <section id="Home">
-                <Home />
-              </section>
-              <section id="About">
-                <About />
-              </section>
-              <section id="Skills">
-                <Skills />
-              </section>
-              <section id="Projects">
-                <Projects />
-              </section>
-              <section id="Certificates">
-                <Certificate />
-              </section>
-              <section id="Contact">
-                <Contact />
-              </section>
+              <section id="Home"> <Home /> </section>
+              <section id="About"> <About /> </section>
+              <section id="Skills"> <Skills /> </section>
+              <section id="Projects"> <Projects /> </section>
+              <section id="Certificates"> <Certificate /> </section>
+              <section id="Contact"> <Contact /> </section>
             </div>
           </Suspense>
-
-          {/* 🔥 Toast Notifications */}
-          <Toaster
-            position="top-right"
-            reverseOrder={false}
-            toastOptions={{
-              style: {
-                background: "#111827",
-                color: "#fff",
-                border: "1px solid #6d28d9",
-                borderRadius: "12px",
-                padding: "12px 16px",
-                fontSize: "14px",
-                fontWeight: "500",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
-              },
-              success: {
-                iconTheme: {
-                  primary: "#a855f7",
-                  secondary: "#111827",
-                },
-              },
-              error: {
-                iconTheme: {
-                  primary: "#ef4444",
-                  secondary: "#111827",
-                },
-              },
-            }}
-          />
         </main>
       </div>
     </Theme>
