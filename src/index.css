@@ -1,6 +1,12 @@
 @import "tailwindcss";
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem; 
 }
 
 @keyframes breathe {
@@ -29,4 +35,37 @@ html {
 
 .animate-pulseGlow {
   animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* =========================================
+   Custom Scrollbar for Single Page Feel
+   ========================================= */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Allows the static background to show through */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6d28d9; /* Matches your glowing purple theme */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a855f7;
+}
+html {
+  scrollbar-width: none; 
+}
+
+/* For Chrome, Safari, and Opera */
+html::-webkit-scrollbar {
+  display: none; 
+}
+
+/* For Internet Explorer and Edge */
+body {
+  -ms-overflow-style: none; 
 }
