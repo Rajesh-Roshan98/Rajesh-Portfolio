@@ -17,6 +17,29 @@ const projects = [
     ],
   },
   {
+    title: "Cloud UBA System (Major Project)",
+    description:
+      "Built a MERN + Python ML–based Cloud UBA system for real-time insider threat detection with Zero Trust security and live SOC alerting.",
+    tech: ["MERN", "Python ML", "Isolation Forest", "JWT", "Socket.io"],
+    links: [
+      {
+        label: "Frontend Code",
+        icon: <FaCode />,
+        url: "https://github.com/Rajesh-Roshan98/UBA-FRONTEND",
+      },
+      {
+        label: "Backend Code",
+        icon: <FaServer />,
+        url: "https://github.com/Rajesh-Roshan98/UBA-BACKEND",
+      },
+      {
+        label: "Live Demo",
+        icon: <FaExternalLinkAlt />,
+        url: "https://cloud-uba.vercel.app/",
+      },
+    ],
+  },
+  {
     title: "Authentication App",
     description:
       "A full-stack authentication system with JWT-based login/signup, encrypted passwords, protected routes, and role-based access control.",
@@ -66,7 +89,7 @@ const projects = [
     title: "ClimaCast - Weather Website",
     description:
       "A modern weather forecasting app that shows real-time weather, 5-day forecast, and location-based updates. Built with React and Tailwind CSS.",
-    tech: ["React", "Tailwind", "OpenWeather API", "Vercel"],
+    tech: ["React", "Tailwind", "OpenWeather API"],
     links: [
       {
         label: "GitHub Code",
