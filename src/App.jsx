@@ -12,6 +12,7 @@ const Projects = lazy(() => import("./sections/Projects"));
 const Contact = lazy(() => import("./sections/Contact"));
 const Certificate = lazy(() => import("./sections/Certificate"));
 const Skills = lazy(() => import("./sections/Skills"));
+const Footer = lazy(() => import("./sections/Footer"));
 
 function App() {
   // 🌟 NEW: State to track if the user is on mobile
@@ -105,6 +106,7 @@ function App() {
               <section id="Projects"> <Projects /> </section>
               <section id="Certificates"> <Certificate /> </section>
               <section id="Contact"> <Contact /> </section>
+              <section id="Footer"> <Footer /> </section>
             </div>
           </Suspense>
         </main>

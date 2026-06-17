@@ -99,7 +99,7 @@ const projects = [
       {
         label: "Live Demo",
         icon: <FaExternalLinkAlt />,
-        url: "https://weather-app-climacast.vercel.app/",
+        url: "https://climacast-app.vercel.app/",
       },
     ],
   },

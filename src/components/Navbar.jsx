@@ -8,6 +8,7 @@ const Navbar = () => {
   const [activeSection, setActiveSection] = useState("Home"); // ✅ Replaces useLocation for active state
   const isMobile = useIsMobile();
   const ticking = useRef(false);
+  const menuRef = useRef(null); // ✅ Added ref for outside click detection
 
   const navLinks = [
     { name: "Home", to: "/" },
@@ -31,6 +32,18 @@ const Navbar = () => {
     }
   };
 
+  // ✅ New: Close menu on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   // ✅ Existing scroll tracker for background transparency
   useEffect(() => {
     const handleScroll = () => {
@@ -47,7 +60,7 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 🌟 NEW FIX: Intersection Observer to update active nav link during manual scrolling
+  // 🌟 FIX: Intersection Observer to update active nav link during manual scrolling
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -70,19 +83,21 @@ const Navbar = () => {
 
   return (
     <nav
+      ref={menuRef} // ✅ Attached ref to nav wrapper to detect clicks outside the entire navbar area
       /* 🌟 FIX: Moved backdrop-blur back to the base class and completely removed border-b to stop the Chrome rendering glitch */
       /* Layout classes (flex, px) moved to the inner container for dynamic max-width handling */
+      /* ✅ Reduced Navbar height slightly (py-4 and py-2.5) for a more modern, compact look */
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out backdrop-blur-md ${
         isScrolled
-          ? "bg-[#0a0f1c]/80 shadow-[0_4px_30px_rgba(0,0,0,0.5)] py-3"
-          : "bg-transparent py-5"
+          ? "bg-[#0a0f1c]/80 shadow-[0_4px_30px_rgba(0,0,0,0.5)] py-2.5"
+          : "bg-transparent py-4"
       }`}
     >
       {/* ✅ Inner container matches the 1920px max-width and edge padding of Home, Projects, etc. */}
       <div className="w-full max-w-[1920px] mx-auto flex justify-between items-center px-4 sm:px-10 md:px-20">
         {/* 🌟 UPGRADE 2: Gradient Logo */}
         <button
-          className="text-2xl sm:text-3xl font-extrabold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 hover:scale-105 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+          className="text-2xl sm:text-3xl font-extrabold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(168,85,247,0.4)]"
           onClick={() => handleLinkClick("/", "Home")}
         >
           RR
@@ -90,16 +105,18 @@ const Navbar = () => {
 
         {/* Nav Links */}
         <ul
-          /* 🌟 UPGRADE 4: Premium Mobile Menu Card */
-          className={`${
-            menuOpen ? "flex flex-col gap-6" : "hidden"
-          } md:flex md:flex-row md:gap-8 font-medium text-center absolute md:static top-[76px] left-4 right-4 bg-[#0a0f1c]/95 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none border border-white/10 md:border-transparent shadow-[0_10px_40px_rgba(0,0,0,0.6)] md:shadow-none rounded-2xl md:rounded-none p-8 md:p-0 transition-all duration-500`}
+          /* 🌟 UPGRADE 4: Premium Mobile Menu Card with smooth transition replacing instant hidden/flex */
+          className={`flex flex-col md:flex-row gap-6 md:gap-8 font-medium text-center absolute md:static top-[68px] left-4 right-4 bg-[#0a0f1c]/95 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none border border-white/10 md:border-transparent shadow-[0_10px_40px_rgba(0,0,0,0.6)] md:shadow-none rounded-2xl md:rounded-none p-8 md:p-0 transition-all duration-300 ease-in-out origin-top ${
+            menuOpen
+              ? "opacity-100 translate-y-0 pointer-events-auto"
+              : "opacity-0 -translate-y-4 pointer-events-none md:opacity-100 md:translate-y-0 md:pointer-events-auto"
+          }`}
         >
           {navLinks.map((link) => (
             <li key={link.name} className="relative group">
               <button
                 onClick={() => handleLinkClick(link.to, link.name)}
-                className={`block w-full cursor-pointer transition-colors duration-300 text-sm sm:text-base tracking-wide ${
+                className={`block w-full cursor-pointer transition-colors duration-300 text-sm sm:text-base tracking-wide flex items-center justify-center ${
                   activeSection === link.name
                     ? "text-purple-400 font-bold"
                     : "text-gray-300 hover:text-purple-300"
@@ -123,17 +140,27 @@ const Navbar = () => {
         {/* Hamburger / Close Icon */}
         <div className="md:hidden">
           {menuOpen ? (
-            <RiCloseLine
-              size={28}
-              className="text-gray-300 hover:text-purple-400 transition-colors duration-300 cursor-pointer drop-shadow-md"
+            <button
               onClick={handleToggle}
-            />
+              aria-label="Close navigation menu"
+              className="flex items-center justify-center"
+            >
+              <RiCloseLine
+                size={28}
+                className="text-gray-300 hover:text-purple-400 transition-colors duration-300 drop-shadow-md"
+              />
+            </button>
           ) : (
-            <RiMenu2Line
-              size={28}
-              className="text-gray-300 hover:text-purple-400 transition-colors duration-300 cursor-pointer drop-shadow-md"
+            <button
               onClick={handleToggle}
-            />
+              aria-label="Open navigation menu"
+              className="flex items-center justify-center"
+            >
+              <RiMenu2Line
+                size={28}
+                className="text-gray-300 hover:text-purple-400 transition-colors duration-300 drop-shadow-md"
+              />
+            </button>
           )}
         </div>
       </div>

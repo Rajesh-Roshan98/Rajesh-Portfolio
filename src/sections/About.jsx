@@ -37,7 +37,8 @@ const About = () => {
           data-aos="fade-up"
           data-aos-delay="200"
         >
-          <p className="text-base sm:text-lg md:text-xl font text-gray-300 leading-relaxed text-justify max-w-3xl mx-auto">
+          {/* Adjusted base text size for smaller screens here */}
+          <p className="text-sm sm:text-base md:text-lg font text-gray-300 leading-relaxed text-justify max-w-3xl mx-auto">
             I am{" "}
             <span className="text-purple-400 font-bold">Rajesh Roshan</span>, a{" "}
             <span className="font-semibold text-white">
@@ -95,7 +96,8 @@ const About = () => {
                                 transition-all duration-300 transform group-hover:-translate-y-1"
                 >
                   <div>
-                    <p className="text-lg sm:text-xl font-bold text-gray-100 group-hover:text-purple-300 transition-colors duration-300">
+                    {/* Reduced text size for education cards across all screen sizes here */}
+                    <p className="text-base sm:text-lg font-bold text-gray-100 group-hover:text-purple-300 transition-colors duration-300">
                       {item.title}
                     </p>
                   </div>
