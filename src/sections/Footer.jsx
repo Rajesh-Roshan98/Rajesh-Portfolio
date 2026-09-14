@@ -13,10 +13,10 @@ const footLinks = [
 
 const Footer = () => {
   return (
-    <footer className="bg-transparent text-gray-300 py-16 border-t border-white/10 relative overflow-hidden">
+    <footer className="bg-transparent text-gray-300 py-10 sm:py-12 md:py-16 border-t border-white/10 relative overflow-hidden">
       {/* ✅ Updated classes to perfectly match Home.jsx margins: w-full max-w-[1920px] and px-4 sm:px-10 md:px-20 */}
       <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-10 md:px-20 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-8 justify-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 lg:gap-8 justify-items-center">
           
           {/* Name & Description Section */}
           <div className="space-y-5 ">

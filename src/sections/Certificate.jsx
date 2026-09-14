@@ -50,12 +50,12 @@ const Certificates = () => {
     <section
       id="Certificates"
       // ✅ bg-transparent allows the global static background to show through perfectly
-      className="relative py-20 px-4 sm:px-10 md:px-20 bg-transparent text-white overflow-hidden"
+      className="relative py-12 sm:py-16 md:py-20 px-4 sm:px-10 md:px-20 bg-transparent text-white overflow-hidden"
     >
       {/* Container max-width increased to 1920px. This ensures the same edge padding across all standard and large monitors. */}
       <div className="relative z-10 w-full max-w-[1920px] mx-auto">
         {/* Header */}
-        <div className="text-center mb-16" data-aos="fade-up">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16" data-aos="fade-up">
           {/* 🌟 UPGRADE 1: Gradient Typography */}
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
             My{" "}

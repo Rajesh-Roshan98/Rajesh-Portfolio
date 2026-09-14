@@ -31,16 +31,15 @@ const Skills = () => {
   ];
 
   return (
-    <section
-      id="skills"
-      // ✅ Removed `min-h-screen` and `justify-center`. The height is now 100% dynamic based purely on the number of cards.
-      className="relative py-20 px-4 sm:px-10 md:px-20 bg-transparent text-white flex flex-col items-center overflow-hidden"
+    <div
+      // ✅ Responsive vertical padding
+      className="relative py-12 sm:py-16 md:py-20 px-4 sm:px-10 md:px-20 bg-transparent text-white flex flex-col items-center overflow-hidden"
     >
       {/* Container widened to w-full max-w-[1920px] to eliminate massive empty side margins on large screens */}
       <div className="relative z-10 w-full max-w-[1920px] mx-auto">
         {/* 🌟 UPGRADE 1: Gradient Typography */}
         <h2
-          className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-8 tracking-tight"
+          className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-6 sm:mb-8 tracking-tight"
           data-aos="fade-up"
         >
           My{" "}
@@ -50,7 +49,7 @@ const Skills = () => {
         </h2>
 
         <p
-          className="text-base sm:text-lg text-gray-400 leading-relaxed text-center mb-14 w-full whitespace-normal break-words"
+          className="text-base sm:text-lg text-gray-400 leading-relaxed text-center mb-8 sm:mb-10 md:mb-14 w-full whitespace-normal break-words"
           data-aos="fade-up"
           data-aos-delay="200"
         >
@@ -104,7 +103,7 @@ const Skills = () => {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -58,13 +58,13 @@ const Contact = () => {
   return (
     <section
       id="Contact"
-      className="relative w-full min-h-screen bg-transparent text-white px-4 sm:px-10 md:px-20 py-20 flex items-center justify-center overflow-hidden"
+      className="relative w-full min-h-fit md:min-h-screen bg-transparent text-white px-4 sm:px-10 md:px-20 py-12 sm:py-16 md:py-20 flex items-center justify-center overflow-hidden"
     >
       {/* ✅ Widened the container to 5xl to allow room for the side-by-side layout */}
       <div className="relative z-10 max-w-5xl w-full">
         
         {/* Header Section */}
-        <div data-aos="fade-up" className="text-center mb-12">
+        <div data-aos="fade-up" className="text-center mb-8 sm:mb-10 md:mb-12">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 tracking-tight">
             Get{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
@@ -88,8 +88,8 @@ const Contact = () => {
           </p>
         </div>
 
-        {/* ✅ Grid container: Increased gap and ensured full width to enforce spacing */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center w-full">
+        {/* ✅ Grid container: Responsive gap scaling from mobile to desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-24 items-center w-full">
           
           {/* Left Side: Contact Form OR Success Message */}
           <div

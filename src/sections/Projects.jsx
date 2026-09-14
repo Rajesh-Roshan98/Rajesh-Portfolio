@@ -112,14 +112,14 @@ const Projects = () => {
     <section
       id="Projects"
       // ✅ Replaced bg-[#0a0f1c] with bg-transparent
-      className="relative py-20 px-4 sm:px-10 md:px-20 bg-transparent text-white overflow-hidden"
+      className="relative py-12 sm:py-16 md:py-20 px-4 sm:px-10 md:px-20 bg-transparent text-white overflow-hidden"
     >
       {/* ❌ Local Background blobs removed to maintain the static global background from App.jsx */}
 
       {/* Container max-width increased to 1920px. This ensures the same edge padding across all standard and large monitors. */}
       <div className="relative z-10 w-full max-w-[1920px] mx-auto">
         {/* Section Title */}
-        <div className="text-center mb-16" data-aos="fade-up">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16" data-aos="fade-up">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
             My{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">

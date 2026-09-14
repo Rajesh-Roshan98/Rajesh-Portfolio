@@ -17,12 +17,12 @@ const About = () => {
     <section
       id="About"
       // ✅ bg-transparent ensures the global fixed background from App.jsx shows through
-      className="relative min-h-screen py-20 px-4 sm:px-10 md:px-20 bg-transparent text-white overflow-hidden flex items-center"
+      className="relative min-h-fit md:min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-10 md:px-20 bg-transparent text-white overflow-hidden flex items-center"
     >
       <div className="relative z-10 max-w-4xl mx-auto w-full">
         {/* Title */}
         <h2
-          className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-10 tracking-tight"
+          className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-6 sm:mb-8 md:mb-10 tracking-tight"
           data-aos="fade-up"
         >
           About{" "}
@@ -33,12 +33,12 @@ const About = () => {
 
         {/* 🌟 UPGRADE 1: Glassmorphism Intro Card */}
         <div
-          className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-8 mb-16 shadow-[0_0_30px_rgba(0,0,0,0.3)] hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] transition-all duration-500"
+          className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-8 mb-8 sm:mb-12 md:mb-16 shadow-[0_0_30px_rgba(0,0,0,0.3)] hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] transition-all duration-500"
           data-aos="fade-up"
           data-aos-delay="200"
         >
           {/* Adjusted base text size for smaller screens here */}
-          <p className="text-sm sm:text-base md:text-lg font text-gray-300 leading-relaxed text-justify max-w-3xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-gray-300 leading-relaxed text-justify max-w-3xl mx-auto">
             I am{" "}
             <span className="text-purple-400 font-bold">Rajesh Roshan</span>, a{" "}
             <span className="font-semibold text-white">

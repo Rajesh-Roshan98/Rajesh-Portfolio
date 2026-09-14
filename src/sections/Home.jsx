@@ -4,34 +4,11 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 import avatarimg from "../assets/IMG_20250827_122932.jpg";
 import "aos/dist/aos.css";
 import { Typewriter } from "react-simple-typewriter";
+import useIsMobile from "../hooks/useIsMobile";
 
 const Home = () => {
   const avatarRef = useRef(null);
-
-  useEffect(() => {
-    let ticking = false;
-
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const scrollY = window.scrollY;
-          const avatarShift = Math.min(scrollY * 0.03, 20);
-
-          if (avatarRef.current) {
-            avatarRef.current.style.transform = `translateY(${avatarShift}px)`;
-          }
-
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const isMobile = useIsMobile();
 
   return (
     <section
