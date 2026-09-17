@@ -1,5 +1,7 @@
 # Dependencies
 node_modules/
+.pnp
+.pnp.js
 
 # Logs
 logs
@@ -16,21 +18,28 @@ dist-ssr/
 build/
 *.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Vite cache
+.vite/
 
 # Environment variables
 .env
 .env.*
 !.env.example
 
-# Vercel
+# Vercel deployment cache
 .vercel/
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini

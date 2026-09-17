@@ -1,112 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "aos/dist/aos.css";
 import { FaGithub, FaExternalLinkAlt, FaServer, FaCode } from "react-icons/fa";
+import { client } from "../sanityClient";
 
-const projects = [
-  {
-    title: "Portfolio Website",
-    description:
-      "A personal portfolio to showcase my work, skills, and contact details. Built with React and Tailwind.",
-    tech: ["React", "Tailwind CSS", "AOS"],
-    links: [
-      {
-        label: "GitHub Code",
-        icon: <FaGithub />,
-        url: "https://github.com/Rajesh-Roshan98/Rajesh-Portfolio",
-      },
-    ],
-  },
-  {
-    title: "Cloud UBA System (Major Project)",
-    description:
-      "Built a MERN + Python ML–based Cloud UBA system for real-time insider threat detection with Zero Trust security and live SOC alerting.",
-    tech: ["MERN", "Python ML", "Isolation Forest", "JWT", "Socket.io"],
-    links: [
-      {
-        label: "Frontend Code",
-        icon: <FaCode />,
-        url: "https://github.com/Rajesh-Roshan98/UBA-FRONTEND",
-      },
-      {
-        label: "Backend Code",
-        icon: <FaServer />,
-        url: "https://github.com/Rajesh-Roshan98/UBA-BACKEND",
-      },
-      {
-        label: "Live Demo",
-        icon: <FaExternalLinkAlt />,
-        url: "https://cloud-uba.vercel.app/",
-      },
-    ],
-  },
-  {
-    title: "Authentication App",
-    description:
-      "A full-stack authentication system with JWT-based login/signup, encrypted passwords, protected routes, and role-based access control.",
-    tech: ["React", "Node.js", "MongoDB"],
-    links: [
-      {
-        label: "Frontend Code",
-        icon: <FaCode />,
-        url: "https://github.com/Rajesh-Roshan98/AuthFrontend",
-      },
-      {
-        label: "Backend Code",
-        icon: <FaServer />,
-        url: "https://github.com/Rajesh-Roshan98/AuthBackend",
-      },
-      {
-        label: "Live Demo",
-        icon: <FaExternalLinkAlt />,
-        url: "https://secure-auth-app.vercel.app/",
-      },
-    ],
-  },
-  {
-    title: "BlogMaster App",
-    description:
-      "A full-stack blog app with categories, rich editor, and comments. Features authentication and routing.",
-    tech: ["React", "Node.js", "MongoDB"],
-    links: [
-      {
-        label: "Frontend Code",
-        icon: <FaCode />,
-        url: "https://github.com/Rajesh-Roshan98/Blog-Master-Frontend",
-      },
-      {
-        label: "Backend Code",
-        icon: <FaServer />,
-        url: "https://github.com/Rajesh-Roshan98/Blog-Master-Backend",
-      },
-      {
-        label: "Live Demo",
-        icon: <FaExternalLinkAlt />,
-        url: "https://blog-master-frontend-beta.vercel.app/",
-      },
-    ],
-  },
-  {
-    title: "ClimaCast - Weather Website",
-    description:
-      "A modern weather forecasting app that shows real-time weather, 5-day forecast, and location-based updates. Built with React and Tailwind CSS.",
-    tech: ["React", "Tailwind", "OpenWeather API"],
-    links: [
-      {
-        label: "GitHub Code",
-        icon: <FaGithub />,
-        url: "https://github.com/Rajesh-Roshan98/WeatherApp",
-      },
-      {
-        label: "Live Demo",
-        icon: <FaExternalLinkAlt />,
-        url: "https://climacast-app.vercel.app/",
-      },
-    ],
-  },
-];
+const renderProjectIcon = (iconType) => {
+  switch (iconType) {
+    case "frontend":
+      return <FaCode />;
+    case "backend":
+      return <FaServer />;
+    case "live":
+      return <FaExternalLinkAlt />;
+    case "github":
+    default:
+      return <FaGithub />;
+  }
+};
 
 const Projects = () => {
-  // ❌ Scroll state, event listeners, and redundant AOS.init removed to fix the lag!
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    const query = `*[_type == "project"] | order(_createdAt desc) {
+      _id,
+      title,
+      description,
+      tech,
+      links
+    }`;
+
+    client
+      .fetch(query)
+      .then((data) => setProjects(data))
+      .catch((err) => console.error("Error fetching projects:", err));
+  }, []);
 
   return (
     <section
@@ -149,7 +76,7 @@ const Projects = () => {
         <div className="grid gap-5 lg:gap-6 grid-cols-[repeat(auto-fit,minmax(280px,1fr))]">
           {projects.map((project, idx) => (
             <div
-              key={idx}
+              key={project._id || idx}
               data-aos="fade-up"
               data-aos-delay={idx * 150}
               /* 🌟 UPGRADE 1: Glassmorphism Cards & Compact Padding (p-5 sm:p-6 instead of p-6 sm:p-8) */
@@ -186,16 +113,16 @@ const Projects = () => {
 
               {/* 🌟 UPGRADE 3: Interactive Link Icons */}
               <div className="relative z-10 flex flex-wrap gap-4 text-xs font-medium mt-auto border-t border-gray-700/50 pt-3">
-                {project.links.map((link, i) => (
+                {project.links?.map((link, i) => (
                   <a
-                    key={i}
+                    key={link._key || i}
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group/link flex items-center gap-1.5 text-gray-300 hover:text-pink-400 transition-colors duration-300"
                   >
                     <span className="transform transition-transform duration-300 group-hover/link:-translate-y-1">
-                      {link.icon}
+                      {renderProjectIcon(link.iconType)}
                     </span>
                     <span className="tracking-wide">{link.label}</span>
                   </a>

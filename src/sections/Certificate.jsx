@@ -1,50 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "aos/dist/aos.css";
+import { client, urlFor } from "../sanityClient";
 
-const certificates = [
-  {
-    title: "Introduction To Internet Of Things",
-    issuer: "NPTEL",
-    date: "April 2025",
-    description:
-      "Successfully completed a 12-week NPTEL online certification on Introduction to Internet of Things, earning Elite status with a consolidated score of 61%. The course covered IoT fundamentals, applications, and hands-on learning.",
-    link: "https://drive.google.com/file/d/1OSG9wIX3zB1_a4FhqtLnnZQQHwlIoEzm/view?usp=drive_link",
-    image: "/assets/Introduction To Internet Of Things.png",
-  },
-  {
-    title: "MEAN & React JS Internship",
-    issuer: "MCA PL",
-    date: "June 2025",
-    type: "Internship",
-    description:
-      "Completed hands-on training in MEAN Stack (MongoDB, Express.js, Angular, Node.js) and React.js with Grade 'B'.",
-    link: "https://drive.google.com/file/d/198hePmRc5PRCIjTxoXMC__KHBHVMjIIm/view?usp=sharing",
-    image: "/assets/MEAN CERTIFICATE.png",
-  },
-  {
-    title: "Industry Exposure Program (Python - AWS)",
-    issuer: "Hebbale Academy",
-    date: "July 2025",
-    type: "Internship",
-    description:
-      "Virtual internship with exposure to Python backend, AWS services (Lambda, S3, DynamoDB), frontend (HTML, CSS, JS), Git, and Hackathon participation.",
-    link: "https://drive.google.com/file/d/1Y7ErVM3ZvJWX22-EzqzrGarQE4eJsPP-/view?usp=sharing",
-    image: "/assets/Rajesh Roshan.png",
-  },
-  {
-    title: "Agentic AI Hackathon",
-    issuer: "Hebbale Academy",
-    date: "September 2025",
-    type: "Hackathon",
-    description:
-      "Participated in the Agentic AI Hackathon 2025 organized by Hebbale Academy at GIET University. Demonstrated enthusiasm and problem-solving skills while contributing to AI-based project activities during the 3-day event.",
-    link: "https://drive.google.com/file/d/175ywbVpU_2LtDtPTKCoe-iDGoK-bPO0P/view?usp=sharing",
-    image: "/assets/Hackathon.png",
-  },
+const MONTH_NAMES = [
+  "", "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
 ];
 
 const Certificates = () => {
-  // ❌ Scroll state, event listeners, and redundant AOS.init removed to fix the lag!
+  const [certificates, setCertificates] = useState([]);
+
+  useEffect(() => {
+    const query = `*[_type == "certificate"] | order(year desc, month desc) {
+      _id,
+      title,
+      issuer,
+      year,
+      month,
+      type,
+      description,
+      link,
+      image
+    }`;
+
+    client
+      .fetch(query)
+      .then((data) => setCertificates(data))
+      .catch((err) => console.error("Error fetching certificates:", err));
+  }, []);
 
   return (
     <section
@@ -83,7 +66,7 @@ const Certificates = () => {
         <div className="grid gap-5 lg:gap-6 grid-cols-[repeat(auto-fit,minmax(280px,1fr))]">
           {certificates.map((cert, idx) => (
             <a
-              key={idx}
+              key={cert._id || idx}
               href={cert.link}
               target="_blank"
               rel="noopener noreferrer"
@@ -101,11 +84,13 @@ const Certificates = () => {
 
               {/* Image - Height slightly reduced for compactness */}
               <div className="relative z-10 w-full h-40 sm:h-44 md:h-40 lg:h-36 flex justify-center items-center bg-black/20 border border-white/5 rounded-xl overflow-hidden mb-4">
-                <img
-                  src={cert.image}
-                  alt={cert.title}
-                  className="w-full h-full object-contain p-2 rounded-md transition-transform duration-500 group-hover:scale-110"
-                />
+                {cert.image && (
+                  <img
+                    src={urlFor(cert.image).width(600).url()}
+                    alt={cert.title}
+                    className="w-full h-full object-contain p-2 rounded-md transition-transform duration-500 group-hover:scale-110"
+                  />
+                )}
               </div>
 
               {/* Info */}
@@ -130,7 +115,7 @@ const Certificates = () => {
                   </p>
                   <span className="hidden sm:inline text-gray-600">•</span>
                   <p className="text-gray-500 text-[10px] sm:text-xs">
-                    {cert.date}
+                    {cert.month ? `${MONTH_NAMES[cert.month]} ` : ""}{cert.year}
                   </p>
                 </div>
 

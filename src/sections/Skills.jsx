@@ -1,34 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import "aos/dist/aos.css";
-import {
-  FaHtml5,
-  FaCss3Alt,
-  FaJs,
-  FaReact,
-  FaNodeJs,
-  FaGithub,
-  FaPython,
-} from "react-icons/fa";
-import { SiMongodb, SiTailwindcss, SiMysql, SiC } from "react-icons/si";
+import { client, urlFor } from "../sanityClient";
 
 const Skills = () => {
-  // ❌ Scroll state and listeners removed to fix lag
+  const [skills, setSkills] = useState([]);
 
-  const skills = [
-    { name: "HTML", icon: <FaHtml5 className="text-orange-500" /> },
-    { name: "CSS", icon: <FaCss3Alt className="text-blue-500" /> },
-    { name: "JavaScript", icon: <FaJs className="text-yellow-500" /> },
-    { name: "React", icon: <FaReact className="text-sky-400" /> },
-    { name: "Node.js", icon: <FaNodeJs className="text-green-600" /> },
-    { name: "Express", icon: <FaNodeJs className="text-gray-400" /> },
-    { name: "MongoDB", icon: <SiMongodb className="text-green-500" /> },
-    { name: "MySQL", icon: <SiMysql className="text-blue-400" /> },
-    { name: "C", icon: <SiC className="text-red-600" /> },
-    { name: "Python", icon: <FaPython className="text-yellow-300" /> },
-    { name: "Tailwind CSS", icon: <SiTailwindcss className="text-cyan-400" /> },
-    { name: "Git & GitHub", icon: <FaGithub className="text-gray-300" /> },
-  ];
+  useEffect(() => {
+    const query = `*[_type == "skill"] | order(order asc) {
+      _id,
+      name,
+      icon
+    }`;
+
+    client
+      .fetch(query)
+      .then((data) => setSkills(data))
+      .catch((err) => console.error("Error fetching skills:", err));
+  }, []);
 
   return (
     <div
@@ -93,7 +82,13 @@ const Skills = () => {
 
               {/* 🌟 UPGRADE 3: Interactive Icon Lift (Reduced icon size here from 5xl to 4xl) */}
               <div className="text-3xl sm:text-4xl mb-3 transform transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-1 relative z-10 drop-shadow-md">
-                {s.icon}
+                {s.icon && (
+                  <img
+                    src={urlFor(s.icon).width(80).url()}
+                    alt={s.name}
+                    className="w-9 h-9 sm:w-10 sm:h-10 object-contain"
+                  />
+                )}
               </div>
 
               <span className="text-gray-300 font-semibold text-xs sm:text-sm text-center relative z-10 group-hover:text-white transition-colors duration-300 tracking-wide">
